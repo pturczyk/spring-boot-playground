@@ -30,7 +30,7 @@ public class BookmarkRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<?> addBookmark(@RequestBody Bookmark bookmark) {
+	public ResponseEntity<Bookmark> addBookmark(@RequestBody Bookmark bookmark) {
 		bookmarkRepository.save(bookmark);
 		
 		return new ResponseEntity<Bookmark>(
