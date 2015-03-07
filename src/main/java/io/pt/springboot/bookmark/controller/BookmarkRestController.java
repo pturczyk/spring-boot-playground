@@ -36,7 +36,7 @@ public class BookmarkRestController {
 		return new ResponseEntity<Bookmark>(
 				null, 
 				buildLocationHeader("/{name}", bookmark.getName()), 
-				HttpStatus.ACCEPTED
+				HttpStatus.CREATED
 			);
 	}
 
