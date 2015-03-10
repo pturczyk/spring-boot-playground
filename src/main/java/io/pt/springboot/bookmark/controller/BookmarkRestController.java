@@ -2,7 +2,7 @@ package io.pt.springboot.bookmark.controller;
 
 import io.pt.springboot.bookmark.model.Bookmark;
 import io.pt.springboot.bookmark.repo.BookmarkRepository;
-
+import io.pt.springboot.bookmark.exception.BookmarkNotFoundException;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -67,13 +66,5 @@ public class BookmarkRestController {
 		return bookmarkRepository.findByName(name)
 				.orElseThrow(() -> new BookmarkNotFoundException(name));
 	}
-
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	class BookmarkNotFoundException extends RuntimeException {
-		private static final long serialVersionUID = 1L;
-
-		public BookmarkNotFoundException(String bookmarkName) {
-			super("Bookmark with name '" + bookmarkName + "' not found.");
-		}
-	}
+	
 }
