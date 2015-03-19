@@ -4,6 +4,7 @@ apply plugin: 'spring-boot'
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+
 repositories {
     mavenCentral()	
 }
@@ -14,6 +15,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.2.2.RELEASE")
+        classpath("org.springframework:springloaded:1.2.0.RELEASE")
     }
 }
 
