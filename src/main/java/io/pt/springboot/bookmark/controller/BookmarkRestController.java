@@ -1,11 +1,12 @@
 package io.pt.springboot.bookmark.controller;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import io.pt.springboot.bookmark.exception.BookmarkNotFoundException;
 import io.pt.springboot.bookmark.model.Bookmark;
 import io.pt.springboot.bookmark.repo.BookmarkRepository;
 import io.pt.springboot.bookmark.resource.BookmarkResource;
 
-import java.net.URI;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,14 +32,11 @@ public class BookmarkRestController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Bookmark> addBookmark(@RequestBody Bookmark bookmark) {
+	public ResponseEntity<Void> addBookmark(@RequestBody Bookmark bookmark) {
 		bookmarkRepository.save(bookmark);
-		
-		return new ResponseEntity<Bookmark>(
-				null, 
-				buildLocationHeader(bookmark), 
-				HttpStatus.CREATED
-			);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(linkTo(methodOn(getClass()).getBookmark(bookmark.getName())).toUri());
+		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
 	@RequestMapping(value = "/{name}", method = RequestMethod.DELETE)
@@ -59,18 +56,6 @@ public class BookmarkRestController {
 				.stream()
 				.map(BookmarkResource::new)
 				.collect(Collectors.toList()));
-	}
-
-	private MultiValueMap<String, String> buildLocationHeader(Bookmark bookmark) {
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(
-			URI.create(
-					new BookmarkResource(bookmark)
-					.getLink("self")
-					.getHref()
-				)
-		);
-		return headers;
 	}
 
 	private Bookmark findBookmark(String name) {
