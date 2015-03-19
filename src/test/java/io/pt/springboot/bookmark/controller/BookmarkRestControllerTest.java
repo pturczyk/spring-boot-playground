@@ -45,7 +45,7 @@ public class BookmarkRestControllerTest {
 	@Test
 	public void shouldReturnNotFoundStatusForNonExistingBookmark() throws Exception {
 		// when
-		MockHttpServletResponse response = mockMvc.perform(get("/bookmark/non_existing_name"))
+		MockHttpServletResponse response = mockMvc.perform(get("/bookmarks/non_existing_name"))
 												  .andReturn()
 												  .getResponse();
 		// then
@@ -65,7 +65,7 @@ public class BookmarkRestControllerTest {
 		
 		// when
 		// using spring matchers
-		mockMvc.perform(get("/bookmark/" + bookmarkName))
+		mockMvc.perform(get("/bookmarks/" + bookmarkName))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath(".name").value(bookmarkName))
 				.andExpect(jsonPath(".url").value(bookmarkUrl));
