@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/bookmark")
+@RequestMapping("/bookmarks")
 public class BookmarkRestController {
 
 	private final BookmarkRepository bookmarkRepository;
